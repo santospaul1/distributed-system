@@ -13,7 +13,7 @@ This folder contains files related to the implementation of a distributed system
 Clone the repository to your local machine using the following command:
 
 
-git clone <repository-url>
+git clone https://github.com/SantosPaulAmiani/Data-structures-.git
 
 Navigate to the "Distributed System" folder on your local machine:
 
