@@ -7,6 +7,7 @@ This folder contains files related to the implementation of a distributed system
 <h3>localhostInfo.java:</h3> This Java file provides information about the local host, such as IP address and host name.
 <h3>HostIp.java:</h3> This Java file demonstrates how to get the IP address of a specific host using its host name.
 <h3>TCP-sockets/:</h3> This folder contains additional code related to TCP sockets, showcasing how to establish connections and transfer data between client and server applications.
+<h3>UDP-sockets/:</h3> This folder contains additional code related to UDP sockets, showcasing how to establish connections and transfer data between client and server applications.
 
 <h2>How to Use</h2>
 
@@ -22,10 +23,12 @@ cd Distributed-System
 
 Explore the individual Java files to understand their functionality and code implementation.
 
-If you want to work with TCP sockets, navigate to the "TCP-sockets" folder:
+If you want to work with sockets, navigate to the "TCP-sockets" or "UDP-socets" folder:
 
 
 cd TCP-sockets
+
+cd UDP-sockets
 
 Run the Java files using a Java development environment or the command-line interface (CLI) to see their output and understand the concepts demonstrated.
 
