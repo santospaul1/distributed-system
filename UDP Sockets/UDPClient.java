@@ -1,67 +1,47 @@
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
-public class UDPServer {
+public class UDPClient {
+    private static InetAddress host;
     private static final int PORT = 1234;
     private static DatagramSocket datagramSocket;
     private static DatagramPacket inpacket, outpacket;
     private static byte[] buffer;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
-            // Step 1: create a datagram socket object
-            datagramSocket = new DatagramSocket(PORT);
-            System.out.println("Opening port");
-
-        } catch (SocketException sockEx) {
-            System.out.println("Unable to open port");
+            host = InetAddress.getLocalHost();
+        } catch (UnknownHostException unEx) {
+            System.out.println("Host id not found");
             System.exit(1);
         }
-        handleClient();
+        accessServer();
     }
 
-    private static void handleClient() {
-        String messageIn, messageOut;
-        int numMessages = 0;
-        InetAddress clientAddress = null;
-        int clientPort;
-        try {
-            do {
-                // Step 2: Create a buffer for incoming datagram
-                buffer = new byte[256];
+    private static void accessServer() throws IOException {
+        datagramSocket = new DatagramSocket();
 
-                // Step 3: Create a datagram packet object for the incoming datagram
-                inpacket = new DatagramPacket(buffer, buffer.length);
+        Scanner userEntry = new Scanner(System.in);
+        String message = "", response = "";
+        do {
+            System.out.println("Enter a message: ");
+            message = userEntry.nextLine();
 
-                // Step 4: Accept the incoming datagram
-                datagramSocket.receive(inpacket);
-
-                // Step 5: Accept the sender's address and port from the packet
-                clientAddress = inpacket.getAddress();
-                clientPort = inpacket.getPort();
-
-                // Step 6: Retrieve the data from the buffer
-                messageIn = new String(inpacket.getData(), 0, inpacket.getLength());
-                System.out.println("Message Received");
-                System.out.println(messageIn);
-                numMessages++;
-                messageOut = "Message " + numMessages + ": " + messageIn;
-
-                // Step 7: Create the response Datagram
-                outpacket = new DatagramPacket(messageOut.getBytes(), messageOut.length(), clientAddress, clientPort);
-
-                // Step 8: Send the response datagram
+            if (!message.equals("***CLOSE***")) {
+                outpacket = new DatagramPacket(message.getBytes(), message.length(), host, PORT);
                 datagramSocket.send(outpacket);
 
-            } while (true);
+                buffer = new byte[256];
+                inpacket = new DatagramPacket(buffer, buffer.length);
+                datagramSocket.receive(inpacket);
 
-        } catch (IOException ioEx) {
-            ioEx.printStackTrace();
-        } finally {
+                response = new String(inpacket.getData(), 0, inpacket.getLength());
 
-            // Step 9: Close the connection
-            System.out.println("Closing the connection");
-            datagramSocket.close();
-        }
+                System.out.println("\n SERVER> " + response);
+            }
+        } while (!message.equals("***CLOSE***"));
+
+        datagramSocket.close();
     }
 }
