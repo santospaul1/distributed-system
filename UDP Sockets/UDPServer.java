@@ -10,9 +10,9 @@ public class UDPServer {
     public static void main(String[] args) {
         try {
             // Step 1: create a datagram socket object
+             System.out.println("Opening port");
             datagramSocket = new DatagramSocket(PORT);
-            System.out.println("Opening port");
-
+           
         } catch (SocketException sockEx) {
             System.out.println("Unable to open port");
             System.exit(1);
